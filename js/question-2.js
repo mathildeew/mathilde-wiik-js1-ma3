@@ -5,16 +5,28 @@ const url = "https://api.rawg.io/api/games?dates=2019-01-01,2019-12-31&ordering=
 const gamesContainer = document.querySelector(".games");
 
 async function getAPI() {
-  const response = await fetch(url);
+  try {
+    const response = await fetch(url);
 
-  const games = await response.json();
+    const data = await response.json();
 
-  gamesContainer.innerHTML = "";
+    console.log(data);
 
-  for (let i = 0; i < games.lenght; i++) {
-    console.log(games[i].text);
+    const games = data.all;
 
-    gamesContainer.innerHTML += `<div class="game">${games[i].text}</div>`;
+    gamesContainer.innerHTML = "";
+
+    for (let i = 0; i < games.lenght; i++) {
+      console.log(games[i].text);
+
+      if (i === 8) {
+        break;
+      }
+      gamesContainer.innerHTML = `${games[i].text}`;
+    }
+  } catch (error) {
+    console.log("an error");
+    gamesContainer.innerHTML = `An error occurered when handling the API request`;
   }
 }
 
