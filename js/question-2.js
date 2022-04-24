@@ -7,26 +7,19 @@ const gamesContainer = document.querySelector(".games");
 async function getAPI() {
   try {
     const response = await fetch(url);
-
     const data = await response.json();
-
     console.log(data);
-
-    const games = data.all;
-
     gamesContainer.innerHTML = "";
-
-    for (let i = 0; i < games.lenght; i++) {
+    for (let i = 0; i < games.length; i++) {
       console.log(games[i].text);
-
       if (i === 8) {
         break;
       }
-      gamesContainer.innerHTML = `${games[i].text}`;
+      gamesContainer.innerHTML = `<div class ="game">${games[i].text}</div>`;
     }
   } catch (error) {
-    console.log("an error");
-    gamesContainer.innerHTML = `An error occurered when handling the API request`;
+    console.log("An error occurred.");
+    gamesContainer.innerHTML = `An error occurered when handling the API request.`;
   }
 }
 
