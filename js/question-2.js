@@ -1,25 +1,24 @@
-// API key = afc2821b29994462b719350349a35236
-
-const url = "https://api.rawg.io/api/games?dates=2019-01-01,2019-12-31&ordering=-rating&key=afc2821b29994462b719350349a35236";
+//  API key = afc2821b29994462b719350349a35236
 
 const gamesContainer = document.querySelector(".games");
 
 async function getAPI() {
   try {
-    const response = await fetch(url);
+    const response = await fetch("https://api.rawg.io/api/games?dates=2019-01-01,2019-12-31&ordering=-rating&key=afc2821b29994462b719350349a35236");
     const data = await response.json();
+    if (!response.ok) {
+      throw Error("Network response error.");
+    }
+
     console.log(data);
     gamesContainer.innerHTML = "";
-    for (let i = 0; i < games.length; i++) {
-      console.log(games[i].text);
-      if (i === 8) {
-        break;
-      }
-      gamesContainer.innerHTML = `<div class ="game">${games[i].text}</div>`;
-    }
-  } catch (error) {
-    console.log("An error occurred.");
-    gamesContainer.innerHTML = `An error occurered when handling the API request.`;
+
+    data.results.forEach((element) => {
+      gamesContainer.innerHTML += `<li><h2>${element.name}</h2><p>Rating: ${element.rating}</p><p>Number of tags: ${element.tags.length}</li>`;
+    });
+  } catch (e) {
+    gamesContainer.innerHTML = "There's an error when handling the API.";
+    console.log("An error occurred:", e.message);
   }
 }
 
